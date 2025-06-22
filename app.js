@@ -1,58 +1,11 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs';
-import { Parser } from 'json2csv';
-import * as XLSX from 'xlsx';
-import PDFDocument from 'pdfkit';
 
-// ======== FUNCIONES DE GUARDADO ========
-function saveToJSON(data, filename) {
-    fs.writeFileSync(`${filename}.json`, JSON.stringify(data, null, 2), 'utf-8');
-    console.log(`✅ ${filename}.json CREADO`);
-}
+import { saveToJSON } from './export/saveToJSON.js';
+import { saveToCSV } from './export/saveToCSV.js';
+import { saveToExcel } from './export/saveToExcel.js';
+import { saveToTXT } from './export/saveToTXT.js';
+import { saveToPDF } from './export/saveToPDF.js';
 
-function saveToCSV(data, filename) {
-    const fields = Object.keys(data[0]);
-    const parser = new Parser({ fields, defaultValue: 'N/A' });
-    const csv = parser.parse(data);
-    fs.writeFileSync(`${filename}.csv`, csv, 'utf-8');
-    console.log(`✅ ${filename}.csv CREADO`);
-}
-
-function saveToExcel(data, filename) {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Artículos');
-    XLSX.writeFile(workbook, `${filename}.xlsx`);
-    console.log(`✅ ${filename}.xlsx CREADO`);
-}
-
-function saveToTXT(data, filename) {
-    const text = data.map(item => {
-        return Object.entries(item)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('\n');
-    }).join('\n\n---\n\n');
-    fs.writeFileSync(`${filename}.txt`, text, 'utf-8');
-    console.log(`✅ ${filename}.txt CREADO`);
-}
-
-function saveToPDF(data, filename) {
-    const doc = new PDFDocument({ margin: 30 });
-    doc.pipe(fs.createWriteStream(`${filename}.pdf`));
-
-    data.forEach((item, i) => {
-        doc.fontSize(12).text(`Artículo ${i + 1}`, { underline: true });
-        for (const [key, value] of Object.entries(item)) {
-            doc.fontSize(10).text(`${key}: ${value}`);
-        }
-        doc.moveDown();
-    });
-
-    doc.end();
-    console.log(`✅ ${filename}.pdf CREADO`);
-}
-
-// ========== SCRAPER DE UNA PÁGINA ==========
 async function scrapeMozilla() {
     const URL = 'https://hacks.mozilla.org/';
     const browser = await puppeteer.launch({ headless: false, defaultViewport: null });
@@ -75,7 +28,6 @@ async function scrapeMozilla() {
         return data;
     });
 
-    // Agregar autor a cada artículo
     for (let articulo of articulos) {
         try {
             const artPage = await browser.newPage();
@@ -93,7 +45,6 @@ async function scrapeMozilla() {
 
     await browser.close();
 
-    // Guardar los datos en múltiples formatos
     saveToJSON(articulos, 'articulos');
     saveToCSV(articulos, 'articulos');
     saveToExcel(articulos, 'articulos');
