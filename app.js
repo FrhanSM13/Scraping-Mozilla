@@ -1,10 +1,10 @@
 import puppeteer from 'puppeteer';
 
-import { saveToJSON } from './export/saveToJSON.js';
-import { saveToCSV } from './export/saveToCSV.js';
-import { saveToExcel } from './export/saveToExcel.js';
-import { saveToTXT } from './export/saveToTXT.js';
-import { saveToPDF } from './export/saveToPDF.js';
+import { saveToJSON } from './modulos/saveToJSON.js';
+import { saveToCSV } from './modulos/saveToCSV.js';
+import { saveToExcel } from './modulos/saveToExcel.js';
+import { saveToTXT } from './modulos/saveToTXT.js';
+import { saveToPDF } from './modulos/saveToPDF.js';
 
 async function scrapeMozilla() {
     const URL = 'https://hacks.mozilla.org/';
