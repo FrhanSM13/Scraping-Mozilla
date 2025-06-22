@@ -1,6 +1,6 @@
 # Scraping de Jugadores de Fútbol
 
-Este proyecto realiza scraping de datos de jugadores de la Premier League desde Transfermarkt y guarda la información en tres formatos: JSON, CSV y Excel.
+Este proyecto realiza scraping de datos de Hacks Mozilla y guarda la información en cinco formatos: JSON, CSV, Excel, PDF y TXT.
 
 ## Requisitos
 
@@ -23,14 +23,14 @@ Este proyecto realiza scraping de datos de jugadores de la Premier League desde 
 
 Después de ejecutar el script, se generarán los siguientes archivos en el directorio del proyecto:
 
-- `jugadores.json`
-- `jugadores.csv`
-- `jugadores.xlsx`
+- `articulos.json`
+- `articulos.csv`
+- `articulos.xlsx`
+- `articulos.pdf`
+- `articulos.txt`
 
 ## Autores
 
-- Arturo Emanuel Zenteno Velazquez
 - Francisco Serrano Grez
 - Daira Leylani Hernández López
 - Josue Islas Herrera
-- Luis Hernesto Piña Marcos
